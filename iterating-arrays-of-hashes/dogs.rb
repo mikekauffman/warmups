@@ -1,11 +1,11 @@
 class Dogs
-  POOR      = (0..5).to_a.sample
-  AVERAGE   = (6..10).to_a.sample
+  POOR = (0..5).to_a.sample
+  AVERAGE = (6..10).to_a.sample
   EXCELLENT = (11..15).to_a.sample
 
   def initialize
-    joe   = {
-      :name => {:first => "Joe", :last=> "Smith"},
+    joe = {
+      :name => {:first => "Joe", :last => "Smith"},
       :owner_quality => EXCELLENT
     }
     sarah = {
@@ -26,33 +26,56 @@ class Dogs
              {:name => "Trixie", :size => :small, :owner => andrew},]
   end
 
-  # only edit below this line
-
   def small_dogs
-    # only use the @dogs instance variable
+    @dogs.select do |dog|
+      dog if dog[:size] == :small
+    end
   end
 
   def huge_dog
-    # only use the @dogs instance variable
+    huge = @dogs.select do |dog|
+      dog if dog[:size] == :huge
+    end
+    huge.first
   end
 
   def large_dog_names
-    # only use the @dogs instance variable
+    large_dog_names = @dogs.map do |dog|
+      dog[:name] if dog[:size] == :large
+    end
+    large_dog_names.compact
   end
 
   def joes_large_dogs
-    # only use the @dogs instance variable
+    joes_dogs = @dogs.map do |dog|
+      dog[:name] if dog[:owner][:name][:first] == "Joe" && dog[:size] == :large
+    end
+    joes_dogs.compact
   end
 
   def sizes
-    # only use the @dogs instance variable
+    dog_array = @dogs.map do |dog|
+      dog[:size]
+    end
+    dog_array.uniq!
   end
 
   def owners
-    # only use the @dogs instance variable
+    owner_array = @dogs.map do |dog|
+      dog[:owner][:name]
+    end
+    owner_array.uniq!
+    owner_names = owner_array.map do |owner|
+      (owner[:first] + " " + owner[:last])
+    end
+    owner_names.compact
   end
 
   def average_owners
-    # only use the @dogs instance variable and constants
+    owner_array = @dogs.map do |dog|
+      (dog[:owner][:name][:first] + " " + dog[:owner][:name][:last]) if dog[:owner][:owner_quality] == AVERAGE
+    end
+    owner_array.uniq!.compact
   end
+
 end
