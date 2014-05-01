@@ -27,55 +27,31 @@ class Dogs
   end
 
   def small_dogs
-    @dogs.select do |dog|
-      dog if dog[:size] == :small
-    end
+    @dogs.select { |dog| dog if dog[:size] == :small }
   end
 
   def huge_dog
-    huge = @dogs.select do |dog|
-      dog if dog[:size] == :huge
-    end
-    huge.first
+    @dogs.select { |dog| dog if dog[:size] == :huge }.first
   end
 
   def large_dog_names
-    large_dog_names = @dogs.map do |dog|
-      dog[:name] if dog[:size] == :large
-    end
-    large_dog_names.compact
+    @dogs.map { |dog| dog[:name] if dog[:size] == :large }.compact
   end
 
   def joes_large_dogs
-    joes_dogs = @dogs.map do |dog|
-      dog[:name] if dog[:owner][:name][:first] == "Joe" && dog[:size] == :large
-    end
-    joes_dogs.compact
+    @dogs.map { |dog| dog[:name] if dog[:owner][:name][:first] == "Joe" && dog[:size] == :large }.compact
   end
 
   def sizes
-    dog_array = @dogs.map do |dog|
-      dog[:size]
-    end
-    dog_array.uniq!
+    @dogs.map { |dog| dog[:size] }.uniq!
   end
 
   def owners
-    owner_array = @dogs.map do |dog|
-      dog[:owner][:name]
-    end
-    owner_array.uniq!
-    owner_names = owner_array.map do |owner|
-      (owner[:first] + " " + owner[:last])
-    end
-    owner_names.compact
+    @dogs.map { |dog| dog[:owner][:name] }.uniq!.map { |owner| (owner[:first] + " " + owner[:last]) }.compact
   end
 
   def average_owners
-    owner_array = @dogs.map do |dog|
-      (dog[:owner][:name][:first] + " " + dog[:owner][:name][:last]) if dog[:owner][:owner_quality] == AVERAGE
-    end
-    owner_array.uniq!.compact
+    @dogs.map { |dog| (dog[:owner][:name][:first] + " " + dog[:owner][:name][:last]) if dog[:owner][:owner_quality] == AVERAGE }.uniq!.compact
   end
 
 end
