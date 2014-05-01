@@ -27,31 +27,53 @@ class Dogs
   end
 
   def small_dogs
-    @dogs.select { |dog| dog if dog[:size] == :small }
+    dog_size_filter(:small)
   end
 
   def huge_dog
-    @dogs.select { |dog| dog if dog[:size] == :huge }.first
+    dog_size_filter(:huge).first
   end
 
   def large_dog_names
-    @dogs.map { |dog| dog[:name] if dog[:size] == :large }.compact
+    @dogs.map { |dog| hash_value_return(dog, :name) if size_filter(dog, :size, :large) }.compact
   end
 
   def joes_large_dogs
-    @dogs.map { |dog| dog[:name] if dog[:owner][:name][:first] == "Joe" && dog[:size] == :large }.compact
+    @dogs.map { |dog| hash_value_return(dog, :name) if three_keys_value_return(dog, :owner, :name, :first) == "Joe" && size_filter(dog, :size, :large) }.compact
   end
 
   def sizes
-    @dogs.map { |dog| dog[:size] }.uniq!
+    @dogs.map { |dog| hash_value_return(dog, :size) }.uniq!
   end
 
   def owners
-    @dogs.map { |dog| dog[:owner][:name] }.uniq!.map { |owner| (owner[:first] + " " + owner[:last]) }.compact
+    @dogs.map { |dog| two_keys_value_return(dog, :owner, :name) }.uniq!.map { |owner| (hash_value_return(owner, :first) + " " + hash_value_return(owner, :last)) }.compact
   end
 
   def average_owners
-    @dogs.map { |dog| (dog[:owner][:name][:first] + " " + dog[:owner][:name][:last]) if dog[:owner][:owner_quality] == AVERAGE }.uniq!.compact
+    @dogs.map { |dog| (three_keys_value_return(dog, :owner, :name, :first) + " " + three_keys_value_return(dog, :owner, :name, :last)) if two_keys_value_return(dog, :owner, :owner_quality) == AVERAGE }.uniq!.compact
   end
 
+end
+
+private
+
+def dog_size_filter(size)
+  @dogs.select { |dog| dog if dog[:size] == size }
+end
+
+def size_filter(hash, key, value)
+  hash[key] ==  value
+end
+
+def hash_value_return(hash, key)
+  hash[key]
+end
+
+def two_keys_value_return(hash, k1, k2)
+  hash[k1][k2]
+end
+
+def three_keys_value_return(hash, k1, k2, k3)
+  hash[k1][k2][k3]
 end
