@@ -35,15 +35,15 @@ class Dogs
   end
 
   def large_dog_names
-    @dogs.map { |dog| hash_value_return(dog, :name) if size_filter(dog, :size, :large) }.compact
+    @dogs.map { |dog| dog.values_at(:name) if value_filter(dog, :size, :large) }.flatten.compact
   end
 
   def joes_large_dogs
-    @dogs.map { |dog| hash_value_return(dog, :name) if three_keys_value_return(dog, :owner, :name, :first) == "Joe" && size_filter(dog, :size, :large) }.compact
+    @dogs.map { |dog| dog.values_at(:name) if three_keys_value_return(dog, :owner, :name, :first) == "Joe" && value_filter(dog, :size, :large) }.flatten.compact
   end
 
   def sizes
-    @dogs.map { |dog| hash_value_return(dog, :size) }.uniq!
+    @dogs.map { |dog| dog.values_at(:size) }.flatten.uniq!
   end
 
   def owners
@@ -62,7 +62,7 @@ def dog_size_filter(size)
   @dogs.select { |dog| dog if dog[:size] == size }
 end
 
-def size_filter(hash, key, value)
+def value_filter(hash, key, value)
   hash[key] ==  value
 end
 
